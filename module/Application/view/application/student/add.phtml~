@@ -1,0 +1,249 @@
+<div class="row">
+	<div class="adMnIdL col-lg-offset-3 col-md-offset-3 col-sm-offset-3  col-xs-offset-0 col-lg-6 col-xs-12 col-md-6 col-sm-6"><?php
+$institute = $this->institute;
+$hasProgrammes = $this->hasProgrammes;
+$hasAgents = $this->hasAgents;
+$structOptions = $this->structOptions;
+$hasFeeStructs = $this->hasFeeStructs;
+$agent = $this->agent;
+$agentListUrl = $this->url('agent/list', array(
+    'instituteId' => $institute['id']
+));
+$instituteListUrl = $this->url('institute/list');
+$proceed = false;
+if (! $hasAgents || ! $hasProgrammes || ! $hasFeeStructs) {
+    $proceed = false;
+}
+
+if (! $hasAgents) {
+    $proceed = false;
+    
+    ?>
+<a class="label label-success"
+			href="/agent/register/<?php echo $institute['id']?>"> Add Agent&nbsp;<i
+			class="fa fa-plus"></i>
+		</a>
+<?php
+} else {
+    $proceed = true;
+}
+
+if (! $hasProgrammes) {
+    $proceed = false;
+    ?>
+<a
+			href="<?php echo $this->url('programme/register',array('instituteId'=>$institute['id'])); ?>">Add
+			Programme<i class="fa fa-plus-circle"></i>
+		</a>
+<?php
+} else {
+    $proceed = true;
+}
+if (! $hasFeeStructs) {
+    $proceed = false;
+    ?>
+    <h2>Please register a fee structure first.</h2>
+		<a href="/institute">Add Fee Structure<i class="fa fa-plus-circle"></i>
+		</a>
+<?php
+}
+if ($proceed) {
+    ?>
+    <h6 class="text-center">(<?php echo $agent['name'].'-Commission:'.$agent['commissionPercentage'].'%'?>,<?php echo ucwords($institute['name'])?>)<a
+				href="<?php echo $agentListUrl ?>"> <i class="fa fa-list-alt"></i>
+			</a>
+		</h6>
+		<div class="row" id="userRegForm">
+                    <h3 class="text-center" style="margin-top:4px;">Student Management</h3>
+                        <div class="box box-primary clearfix">
+                            <br>
+			<div class="col-md-12 col-sm-12 col-xs-12">
+
+<?php
+    $form = $this->form;
+    $form->prepare();
+    $form->setAttribute('method', 'post');
+    $form->setAttribute('class', 'form');
+    $form->setAttribute('role', 'form');
+    $form->setAttribute('autocomplete', 'off');
+    echo $this->form()->openTag($form);
+    ?>
+ <div class="">
+     <div class="form-group">
+                                <label for="exampleInputEmail1">Student Details</label>
+     </div>
+     <div class="form-group">
+                                <label for="exampleInputEmail1">Name</label>
+<?php
+    
+    $name = $form->get('name');
+    echo $this->forminput($name);
+    echo $this->formelementerrors($name);
+    ?></div>
+<div class="form-group">
+                                <label for="exampleInputEmail1">Student's Email ID</label>
+<?php
+    
+    $emailId = $form->get('emailId');
+    echo $this->formemail($emailId);
+    echo $this->formelementerrors($emailId);
+    ?></div>
+   <div class="form-group">
+                                <label for="exampleInputEmail1">Contact Number</label>
+<?php
+    
+    $mobile = $form->get('mobile');
+    echo $this->formnumber($mobile);
+    echo $this->formelementerrors($mobile);
+    ?></div>
+                                <div class="form-group">
+                                <label for="exampleInputEmail1">Student's Address</label>
+<?php
+
+    $address = $form->get('address');
+    echo $this->formtextarea($address);
+    echo $this->formelementerrors($address);
+    ?></div>
+<?php
+<?php
+
+    $city = $form->get('city');
+    echo $this->formtextarea($city);
+    echo $this->formelementerrors($city);
+    ?></div>
+<?php
+
+    $csrf = $form->get('mcsrf');
+    echo $this->formhidden($csrf);
+    echo $this->formElementErrors($csrf);
+    
+    ?>
+                                <div class="form-group">
+                                <label for="exampleInputEmail1">Gender</label>
+<?php
+
+    $gender = $form->get('gender');
+    echo $this->formselect($gender);
+    echo $this->formElementErrors($gender);
+    
+    ?></div>
+                                <div class="form-group">
+                                <label for="exampleInputEmail1">Programme Selected</label>
+    <?php
+    
+    $programme = $form->get('programmeId');
+    echo $this->formselect($programme);
+    echo $this->formElementErrors($programme);
+    
+    ?></div>
+                              <!--  <div class="form-group">
+                                <label for="exampleInputEmail1">Tuition Fees</label>
+       <?php
+    
+    // $feeDiscountPercentage = $form->get('feeDiscountPercentage');
+    // echo $this->formnumber($feeDiscountPercentage);
+    // echo $this->formElementErrors($feeDiscountPercentage);
+    //
+   /* $tuitionFees = $form->get('tuitionFees');
+    echo $this->formnumber($tuitionFees);
+    echo $this->formElementErrors($tuitionFees);*/
+    
+    ?><br></div>
+    </div>-->
+				<div class="">
+                                    <div class="form-group">
+                                <label for="exampleInputEmail1">Agent Details</label>
+                                    </div>
+  <div class="form-group">
+                                <label for="exampleInputEmail1">Commission Status</label> 
+<?php
+    
+    $commissionStatus = $form->get('commissionStatus');
+    echo $this->formselect($commissionStatus);
+    echo $this->formElementErrors($commissionStatus);
+    
+    ?></div>
+                                <div class="form-group">
+                                <label for="exampleInputEmail1">Amount to Add to Default Commission</label>
+<?php
+
+    $addCommission = $form->get('addCommission');
+    echo $this->formnumber($addCommission);
+    echo $this->formelementerrors($addCommission);
+    ?></div>
+                                <div class="form-group">
+                                <label for="exampleInputEmail1">Amount to Deduct from Default Commission</label>
+<?php
+
+    $deductCommission = $form->get('deductCommission');
+    echo $this->formnumber($deductCommission);
+    echo $this->formelementerrors($deductCommission);
+    ?></div></div>
+
+				<div class="">
+                                    <div class="form-group">
+                                <label for="exampleInputEmail1">Specify Fee</label>
+					
+     <?php
+    foreach ($structOptions as $key => $value) {
+        $ele = $form->get($key);
+        echo $this->formrow($ele);
+    }
+    ?></div>
+    
+				</div>
+                                    <div class="form-group">
+                                <label for="exampleInputEmail1">Date of Birth:</label>
+
+                                    </div>
+				<div class="row">
+
+					<div class="form-group column col-md-3 col-sm-3 col-xs-3">
+<?php
+    $birthDay = $form->get('birthDay');
+    echo $this->formselect($birthDay);
+    
+    ?>
+			</div>
+					<div class="form-group column col-md-4 col-sm-4 col-xs-4"><?php
+    
+    $birthMonth = $form->get('birthMonth');
+    echo $this->formselect($birthMonth);
+    ?>
+			</div>
+					<div class="form-group column col-md-5 col-sm-5 col-xs-5"><?php
+    
+    $birthYear = $form->get('birthYear');
+    echo $this->forminput($birthYear);
+    ?>
+			</div>
+			<?php echo $this->formElementErrors($birthDay);?>
+			<?php echo $this->formElementErrors($birthMonth);?>
+			<?php echo $this->formElementErrors($birthYear);?>
+			
+</div>
+				<div class="form-group">
+					<div class="control-group">
+						<div class="controls col-md-4 col-md-offset-4 col-lg-4 col-lg-offset-4 col-sm-offset-4 col-sm-4">
+							<button class="btn btn-primary btn-block">Save</button>
+                                                        <br>
+						</div>
+					</div>
+				</div>
+<?php
+    echo $this->form()->closeTag();
+    ?>
+</div>
+                        </div>
+
+		</div>
+	</div>
+</div>
+<style>
+div.yup123 label {
+	display: block;
+}
+</style>
+<?php
+}
+?>

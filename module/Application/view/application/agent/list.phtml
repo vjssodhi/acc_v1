@@ -1,0 +1,235 @@
+<?php
+
+use Application\Utilities\Misc;
+
+$agentImagePath = $this->basePath() . '/images/';
+$agentDefaultImage = $agentImagePath . 'agent.png';
+$agents = $this->allAgents;
+$countries = Misc::getCountries();
+?>
+<div class="row">
+    <div class="adMnIdL col-lg-12 col-xs-12 col-md-12 col-sm-12">
+        <h3 class="pull-left">Agent Listing</h3>
+
+       
+            <div class="col-lg-4 pull-right" style="margin-top: 10px;">
+                <input type="search" class="form-control" id="input-search"
+                       placeholder="Search Agents"> 
+                       <?php
+                       if (!empty($agents)) {
+                           ?>
+            </div>
+ <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 clearfix box box-primary">
+                    <div class="main-box no-header clearfix">
+                        <div class="main-box-body clearfix">
+                            <div class="table-responsive searchable-container">
+                                <table id="allAgentsNode" class="table user-list table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Institutes</td>
+                                            <td>No of Students Enrolled</td>
+                                            <td>Commission Status</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        foreach ($agents as $agent) {
+                                            $totalCommission = $agent['totalCommission'];
+                                            $courseFeeCurrency = $agent['courseFeeCurrency'];
+                                            $paidAmount = $agent['paidAmount'];
+
+                                            $agentName = $agent['name'];
+                                            $agentId = $agent['id'];
+                                            $agentName = $agent['name'];
+                                            $agentCommission = $agent['commissionPercentage'];
+                                            $agentEmail = $agent['emailId'];
+                                            $agentPhone = $agent['mobile'];
+                                            $createdOn = $agent['createdOn'];
+                                            $status = $agent['enabled'];
+                                            $address = $agent['address'];
+                                            if ($status == 0) {
+                                                $class = "label-danger";
+                                                $status = 'DISABLED';
+                                            } else {
+                                                $status = 'ENABLED';
+                                                $class = "label-success";
+                                            }
+                                            ?>
+                                            <tr class="items">
+                                                <td>
+        <?php ?> <a class="btn btn-xs"
+                                                       href="<?php echo $this->url('agent/details', array('agentId' => $agentId)); ?>">View
+                                                        Details&nbsp;<i class="fa fa-user"></i>
+                                                    </a> <a class="btn btn-xs"
+                                                            href="<?php echo $this->url('agent/update', array('agentId' => $agentId)); ?>">Edit&nbsp;<i
+                                                            class="fa fa-pencil-square-o"></i>
+                                                    </a>
+                                                    <h5><?php echo $agentName ?></h5>
+                                                </td>
+                                                <td><?php
+                                                    $insts = $agent['institutes'];
+                                                    foreach ($insts as $insInfo) {
+                                                        ?>
+                                                        <i class="fa fa-university"></i> <?php echo $insInfo['name'] ?> <a
+                                                            class="btn btn-xs"
+                                                            href="/institute/details/<?php echo $insInfo['id'] ?>"><i
+                                                                class="fa fa-sign-out"></i></a><br>
+                                                            <?php
+                                                        }
+                                                        ?></td>
+                                                <td><?php echo $agent['totalStudents'] ?></td>
+                                                <td>
+                                                    Total Commission So far <?php echo ': ' . $totalCommission ?><br>
+                                                    Payment Due<?php echo ': ' . $agent['paymentDue'] ?>
+                                                    <br>Amount Paid<?php echo ': ' . $agent['paidAmount'] ?>
+                                                    <?php
+                                                    if ($agent['paymentStatus']) {
+                                                        echo '<br>Commission Status:' . $agent['paymentStatus'];
+                                                    }
+                                                    if ($agent['paymentDue'] == 0) {
+                                                        echo '<br>Commission Status: NOTHING PENDING';
+                                                    }
+                                                    ?>
+                                                </td>
+
+                                            </tr>
+                                            <?php
+                                        }
+                                        ?>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <style>
+                        .main-box.no-header {
+                            padding-top: 20px;
+                        }
+
+                        .main-box {
+                            background: #FFFFFF;
+                            -webkit-box-shadow: 1px 1px 2px 0 #CCCCCC;
+                            -moz-box-shadow: 1px 1px 2px 0 #CCCCCC;
+                            -o-box-shadow: 1px 1px 2px 0 #CCCCCC;
+                            -ms-box-shadow: 1px 1px 2px 0 #CCCCCC;
+                            box-shadow: 1px 1px 2px 0 #CCCCCC;
+                            margin-bottom: 16px;
+                            -webikt-border-radius: 3px;
+                            -moz-border-radius: 3px;
+                            border-radius: 3px;
+                        }
+
+                        .table a.table-link.danger {
+                            color: #e74c3c;
+                        }
+
+                        .label {
+                            border-radius: 3px;
+                            font-size: 0.875em;
+                            font-weight: 600;
+                        }
+
+                        .user-list tbody td .user-subhead {
+                            font-size: 0.875em;
+                            font-style: italic;
+                        }
+
+                        .user-list tbody td .user-link {
+                            display: block;
+                            font-size: 1.25em;
+                            padding-top: 3px;
+                            margin-left: 60px;
+                        }
+
+                        a {
+                            color: #3498db;
+                            outline: none !important;
+                        }
+
+                        .user-list tbody td>img {
+                            position: relative;
+                            max-width: 50px;
+                            float: left;
+                            margin-right: 15px;
+                        }
+
+                        .table thead tr th {
+                            text-transform: uppercase;
+                            font-size: 0.875em;
+                        }
+
+                        .table thead tr th {
+                            border-bottom: 2px solid #e7ebee;
+                        }
+
+                        .table tbody tr td:first-child {
+                            font-size: 1.125em;
+                            font-weight: 300;
+                        }
+
+                        .table tbody tr td {
+                            font-size: 1em;
+                            vertical-align: middle;
+                            border-top: 1px solid #e7ebee;
+                        }
+                    </style>
+                    <?php
+                } else {
+                    ?>
+                    <h2>No Agents have been Registered so far</h2>
+                    <a href="<?php echo $this->url('institute/list'); ?>">View Institute
+                        List<i class="fa fa-plus-circle"></i>
+                    </a>
+                    <?php
+                }
+                ?>
+           
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        var getParameterByName = function (name, url) {
+            if (!url)
+                url = window.location.href;
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                    results = regex.exec(url);
+            if (!results)
+                return null;
+            if (!results[2])
+                return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
+        var commStatus;
+        var searchP;
+        var thisLocation;
+        thisLocation = window.location.href;
+        commStatus = getParameterByName('commissionStatus', thisLocation);
+        console.log(commStatus);
+        if (commStatus) {
+            var rex = new RegExp(commStatus, 'i');
+            $('.searchable-container .items').hide();
+            $('.searchable-container .items').filter(function () {
+                return rex.test($(this).text());
+            }).show();
+        }
+
+
+
+    });
+    $(function () {
+        $('#input-search').on('keyup', function () {
+            var rex = new RegExp($(this).val(), 'i');
+            $('.searchable-container .items').hide();
+            $('.searchable-container .items').filter(function () {
+                return rex.test($(this).text());
+            }).show();
+        });
+    });
+
+</script>

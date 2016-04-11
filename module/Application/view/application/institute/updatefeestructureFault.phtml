@@ -1,0 +1,68 @@
+<div class="row">
+    
+	<div class="adMnIdL  col-lg-12 col-xs-12 col-md-12 col-sm-12">
+	<?php
+$instInfo = $this->instInfo;
+?>
+		<h2 class="text-center">
+			Fee Structure for <?php echo $instInfo['name']?><sup><a
+				href="/institute/listcomponents"> <i class="fa fa-list-alt"></i>
+			</a></sup>
+		</h2>
+		<div class="box box-primary clearfix" id="userRegForm">
+			
+		
+
+<?php
+$allFields = $this->allFields;
+$form = $this->form;
+$form->prepare();
+$form->setAttribute('method', 'post');
+$form->setAttribute('class', 'form');
+$form->setAttribute('role', 'form');
+$form->setAttribute('autocomplete', 'off');
+echo $this->form()->openTag($form);
+?>
+
+<?php
+foreach ($allFields as $key) {
+    echo '<div class="form-group"><label for="exampleInputEmail1">Fee Component</label>';
+    $amt = $key . 'amount';
+    $act = $key . 'action';
+    
+    $keyE = $form->get($key);
+    echo $this->formtext($keyE);
+    echo $this->formelementerrors($keyE).'</div>';
+    
+    $acte = $form->get($act);
+    echo '<div class="form-group"><label for="exampleInputEmail1">Status</label>'.$this->formselect($acte).'</div>';
+    
+    $amte = $form->get($amt);
+    echo '<div class="form-group"><label for="exampleInputEmail1">Amount</label>'.$this->forminput($amte);
+    echo $this->formelementerrors($amte);
+    echo "</div></div>";
+}
+
+$csrf = $form->get('mcsrf');
+echo $this->formhidden($csrf);
+echo $this->formElementErrors($csrf);
+
+?>
+		
+
+		
+					<div class="control-group">
+						<div class="controls">
+							<button class="btn btn-primary btn-block">Save</button>
+						</div>
+					</div>
+				
+		<?php
+echo $this->form()->closeTag();
+?>
+		</div>
+
+		
+	</div>
+</div>
+

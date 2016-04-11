@@ -1,0 +1,106 @@
+<?php
+use Application\Entity\Student;
+use Application\Entity\Programme;
+use Application\Entity\Institute;
+use Application\Entity\Agent;
+/* @var $ */
+/* @var $agent Agent */
+/* @var $programme Programme */
+/* @var $institute Institute */
+$student = $this->student;
+$agent = $this->agent;
+$programme = $this->programme;
+$institute = $this->institute;
+$breakDowns = $this->breakDowns;
+$structOptions = $this->structOptions;
+?>
+<div class="row">
+	
+	<div class="adMnIdL col-lg-12 col-xs-12 col-md-12 col-sm-12 table-responsive">
+            <h3 class="text-center" style="margin:10px 0 0;">Student Detail</h3>
+            <br>
+		<a class="btn btn-xs btn-default btn-block"
+			href="<?php
+echo $this->url('student/update', array(
+    'studentId' => $student->getId()
+));
+?>">Edit Case&nbsp;<i class="fa fa-pencil-square-o"></i>
+		</a>
+	<?php
+$status = $student->getCommissionStatus();
+if ($status == 0) {
+    $class = "alert-danger";
+    $status = 'PENDING';
+} else {
+    $status = 'PAID';
+    $class = "alert-success";
+}
+$currency = $programme->getFeeCurrency();
+?>
+            <br>
+            <div class="box box-primary clearfix">
+<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th>Basic Information</th>
+					<th>Programme</th>
+					<th>Agent Information</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>
+					Name:	<?php echo $student->getName()?><br>
+	Gender:	<?php echo $student->getGender()?><br>
+	Date of Birth:	<?php $dateofbirth_stamp= $student->getDateOfBirth(); $dateofBirth=gmdate("d-M-YY", $dateofbirth_stamp); echo $dateofBirth?><br>
+	Email Id:	<?php echo $student->getEmailId()?><br>
+	Mobile:	<?php echo $student->getMobile()?><br>
+	Address:	<?php echo $student->getAddress()?><br>
+					</td>
+					<td>Programme Name:	<?php echo $programme->getName()?><br>
+	Programme Fees:	<?php echo $this->currencyFormat($programme->getFeeAmount(), $currency, false, LOCALE)?><br>
+						<br>
+
+					</td>
+					<td>
+Agent Name:	<?php echo $agent->getName()?><br>
+	Agent Mobile:	<?php echo $agent->getMobile()?><br>
+	Agent Email:	<?php echo $agent->getEmailId()?><br>	
+	Commission Status:	<?php echo $status?><br>
+	Commission specified at time of enrollment:	<?php
+echo $this->currencyFormat($student->getCommissionToBePaidByInstitute(), $programme->getFeeCurrency(), false, LOCALE);
+?>
+</td>
+
+				</tr>
+				<tr>
+					<td colspan="3">Tuition Fees specified at time of Enrollment:	<?php
+    echo $this->currencyFormat($student->getFeeAmount(), $student->getFeeCurrency(), false, LOCALE)?><br>
+<?php
+$breakDownTotal = 0;
+if (! empty($breakDowns)) {
+    foreach ($breakDowns as $breakDown) {
+        $amt = $breakDown['amount'];
+        $breakDownTotal = $breakDownTotal + $amt;
+        $amt = $this->currencyFormat($amt, $currency, false, LOCALE);
+        echo $structOptions[$breakDown['componentId']]['name'] . ': ' . $amt . '<br>';
+    }
+}
+?>
+	 <strong>Total Fees: <?php
+$feeAtTimeOfEnrollment = $student->getFeeAmount();
+$totalFees = $feeAtTimeOfEnrollment + $breakDownTotal;
+echo $this->currencyFormat($totalFees, $currency, false, LOCALE);
+?></strong>
+					</td>
+
+
+
+				</tr>
+			</tbody>
+			<tfoot></tfoot>
+		</table>
+            </div>
+
+	</div>
+</div>

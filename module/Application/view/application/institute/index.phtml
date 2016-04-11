@@ -1,0 +1,108 @@
+<div class="row">
+	
+	<?php
+$hasInstitutes = $this->hasInstitutes;
+$proceed = false;
+if (! $hasInstitutes) {
+    $proceed = false;
+    ?>
+    <div class="adMnIdL col-lg-9 col-xs-9 col-md-9 col-sm-9">
+		<h3>No Institutes have been Registered yet</h3>
+		<a href="/institute/add">Add Institute<i class="fa fa-plus-circle"></i></a>
+
+	</div>
+</div>
+<?php
+} else {
+    
+    ?><div class="adMnIdL col-lg-9 col-xs-9 col-md-9 col-sm-9">
+	<div class="row" id="userRegForm">
+		<div>
+			<h3 class="text-center">Fee Structure Components</h3>
+
+		</div>
+
+		<div
+			class="col-md-offset-3 col-xs-offset-3 col-sm-offset-3 col-md-6 col-sm-6 col-xs-6">
+			<!--<button class="btn btn-info btn-xs btn-block"
+				onclick="return MM_IDFC.add_component()">Click here to add a new Component</button>-->
+				
+<?php
+    $form = $this->form;
+    $form->prepare();
+    $form->setAttribute('method', 'post');
+    $form->setAttribute('class', 'form');
+    $form->setAttribute('role', 'form');
+    $form->setAttribute('autocomplete', 'off');
+    
+    echo $this->form()->openTag($form);
+    
+    $instituteId = $form->get('instituteId');
+    echo $this->formselect($instituteId);
+    echo $this->formElementErrors($instituteId);
+    
+    $instituteFeeStructure = $form->get('instituteFeeStructure');
+    ?>
+
+<?php
+    $feeComponents = $instituteFeeStructure->get('feeComponents');
+    echo $this->formCollection($feeComponents);
+    foreach ($feeComponents as $feeComponent) {
+        echo $this->formElementErrors($feeComponent);
+    }
+    
+    echo $this->formHidden($form->get('mcsrf'));
+    ?>
+<div class="form-group">
+				<div class="control-group">
+					<div class="controls">
+						<button class="btn btn-primary btn-block">Save</button>
+					</div>
+				</div>
+			</div>
+<?php
+    echo $this->form()->closeTag();
+    ?>
+</div>
+	</div>
+</div>
+</div>
+<script>
+var MM_IDFC = (function() {
+	var counter = 1;
+	function addComponent() {
+		counter = counter + 1;
+		var rmBtnId = 'btnCool' + counter;
+		var currentCount = $('form > fieldset > fieldset').length;
+                
+		var template = $('form > fieldset > span').data('template');
+                
+		var remBtn = '<button class="btn btn-danger btn-xs" onclick="return MM_IDFC.remove_component(\'' + rmBtnId
+				+ '\')">Remove Component</button>';
+		template = template.replace('/__index__/g', currentCount);
+		template = '<div class="amrit">'+remBtn+template+'</div>';
+		template = $(template);
+		template.addClass("dynFSet " + rmBtnId)
+
+		$('form > fieldset').append(template);
+		return false;
+	}
+	function removeComponent(elId) {
+		var domIdd = "." + elId + "";
+		console.log(domIdd);
+		// $('form > fieldset > fieldset.dynFSet').last().remove();
+		$(domIdd).remove();
+		return false;
+	}
+	return {
+		add_component : addComponent,
+		remove_component : removeComponent
+	}
+})();
+
+</script>
+<style>
+.dynFSet {
+	border: 1px solid black;
+}
+</style><?php }?>

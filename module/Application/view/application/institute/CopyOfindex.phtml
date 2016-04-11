@@ -1,0 +1,58 @@
+<div class="row">
+	<div class="adMnId col-lg-3 col-xs-3 col-md-3 col-sm-3"><?php echo $this->adminSideMenu;?></div>
+	<div class="adMnIdL col-lg-9 col-xs-9 col-md-9 col-sm-9">
+		<div class="row" id="userRegForm">
+			<div>
+				<h3 class="text-center">Fee Structure Components</h3>
+
+			</div>
+
+			<div
+				class="col-md-offset-3 col-xs-offset-3 col-sm-offset-3 col-md-6 col-sm-6 col-xs-6">
+				<button onclick="return add_component()">Add a new Component</button>
+				<button onclick="return remove_component()">Remove Last Component</button>
+<?php
+$form = $this->form;
+$form->prepare();
+$form->setAttribute('method', 'post');
+$form->setAttribute('class', 'form');
+$form->setAttribute('role', 'form');
+$form->setAttribute('autocomplete', 'off');
+
+echo $this->form()->openTag($form);
+
+$instituteId = $form->get('instituteId');
+echo $this->formselect($instituteId);
+echo $this->formElementErrors($instituteId);
+
+$instituteFeeStructure = $form->get('instituteFeeStructure');
+?>
+
+<?php
+$feeComponents= $instituteFeeStructure->get('feeComponents');
+echo $this->formCollection($feeComponents);
+
+echo $this->formHidden($form->get('mcsrf'));
+echo $this->formElement($form->get('submit'));
+echo $this->form()->closeTag();
+?>
+</div>
+		</div>
+	</div>
+</div>
+<script>
+function add_component() {
+var currentCount = $('form > fieldset > fieldset').length;
+var template = $('form > fieldset > span').data('template');
+template = template.replace('/__index__/g', currentCount);
+template =$(template );
+template.addClass( "amrit" )
+console.log(template);
+$('form > fieldset').append(template);
+return false;
+}
+function remove_component() {
+      $('form > fieldset > fieldset.amrit').last().remove();
+     return false;
+ }
+</script>

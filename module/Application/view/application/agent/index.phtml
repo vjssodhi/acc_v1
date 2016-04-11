@@ -1,0 +1,218 @@
+<div class="row">
+    <?php
+    $assocs = $this->assocs;
+    ?>
+    <div class="adMnIdL col-lg-12 col-xs-12 col-md-12 col-sm-12">
+        <?php
+        if (empty($assocs)) {
+            ?>
+            <h2>Agent is not registered with any institute</h2>
+            <a class="btn btn-xs btn-block btn-default" href="/institute/listall">View Institutes <i class="fa fa-list"></i>
+            </a>
+            <?php
+        } else {
+            ?>
+            <?php
+            $totalCommission = $this->totalCommission;
+            $courseFeeCurrency = $this->courseFeeCurrency;
+            $paidAmount = $this->paidAmount;
+            if ($totalCommission == 0) {
+                $tc = 0;
+                $pDue = 0;
+                $pDone = 0;
+            } else {
+                $tc = $this->currencyFormat($totalCommission, $courseFeeCurrency);
+                if ($paidAmount >= 0) {
+                    $pDone = $paidAmount;
+                    $pDue = $totalCommission - $paidAmount;
+                    $pDue = $this->currencyFormat($pDue, $courseFeeCurrency);
+                }
+            }
+            ?>
+            <h3>Transaction Password: <?php echo $this->transactionPassword ?></h3>
+
+            <?php
+            $agDetails = $this->agentDetails;
+            $institutes = $this->institutes;
+            ?>
+            <div class="row">
+                <div class="col-sm-5 col-md-5 col-lg-5">
+                    <h4><?php echo $agDetails['name'] ?></h4>
+                    Address: <i class="glyphicon glyphicon-map-marker"></i><?php echo $agDetails['address'] ?>
+
+                    <p>
+                        Contact Details: <i class="glyphicon glyphicon-envelope"></i>
+                        <?php echo $agDetails['emailId'] ?>  
+                        <i class="fa fa-phone"></i>
+                        <?php echo $agDetails['mobile'] ?> 
+                    </p>
+
+                </div>
+                <div class="col-sm-3 col-md-3 col-lg-3">
+                    <h4>Total Commission: <?php echo $tc; ?></h4>
+                    <h5 class="text-success">Amount Paid: <?php echo $pDone ?></h5>
+                    <h5 class="text-danger">Payment Due: <?php echo $pDue ?></h5>
+                </div>
+                <div class="col-sm-3 col-md-3 col-lg-3">
+                    <?php
+                    $form = $this->form;
+                    $form->prepare();
+                    $form->setAttribute('method', 'post');
+                    $form->setAttribute('class', 'form');
+                    $form->setAttribute('role', 'form');
+                    $form->setAttribute('autocomplete', 'off');
+                    echo $this->form()->openTag($form);
+                    //
+                    $paymentAmount = $form->get('paymentAmount');
+                    echo '<div class="field" style="margin-bottom:5px">'.$this->formnumber($paymentAmount);
+                    echo $this->formelementerrors($paymentAmount).'</div>';
+                    //
+                    $verifyAction = $form->get('verifyAction');
+                    echo $this->forminput($verifyAction);
+                    echo $this->formelementerrors($verifyAction);
+
+                    $csrf = $form->get('mcsrf');
+                    echo $this->formhidden($csrf);
+                    echo $this->formElementErrors($csrf);
+                    ?>
+                    <div class="form-group">
+                        <div class="control-group">
+                            <div class="controls col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2 col-sm-8 col-sm-offset-2" style="margin-top:5px;">
+                                   <button class="btn btn-primary btn-block">Make Payment</button>
+                            </div>
+                        </div>
+                    </div>
+    <?php
+    echo $this->form()->closeTag();
+    ?>
+
+                </div>
+
+
+            </div>
+            <div class="row well well-sm">
+                <div class="box box-primary">
+                    <br>
+    <?php
+    $allStudents = $agentDetails['students'];
+    $totalCommission = 0;
+    if (!empty($allStudents)) {
+        echo $this->headLink()->prependStylesheet($this->basePath('css/dataTables.bootstrap.min.css'));
+        ?>	
+                    <table id="allUsersNode" class="table table-striped table-bordered"
+                           cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Institute</th>
+                                <th>Programme</th>
+                                <th>Commission</th>
+
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Institute</th>
+                                <th>Programme</th>
+                                <th>Commission</th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+        <?php
+        foreach ($allStudents as $student) {
+            $stuProgramme = $student['programmeInfo'];
+            $stuInstitute = $stuProgramme['instituteInfo'];
+            $studentId = $student['id'];
+            $instituteId = $stuInstitute['id'];
+            $cmsToPePaid = $student['commissionToBePaidByInstitute'];
+            $totalCommission = $totalCommission + $cmsToPePaid;
+            $courseFeeCurrency = $student['feeCurrency'];
+            $status = $student['commissionStatus'];
+            if ($status == 0) {
+                $class = "alert-danger";
+                $status = 'PENDING';
+            } else {
+                $status = 'PAID';
+                $class = "alert-success";
+            }
+            ?><tr id="<?php echo $studentId; ?>">
+
+                                    <td><a title="Edit Case" class="btn btn-xs btn-default"
+                                           href="<?php
+                                echo $this->url('student/update', array(
+                                    'studentId' => $studentId
+                                ));
+                                ?>"><i class="fa fa-pencil-square-o"></i>
+                                        </a> <a title="Student Detail" class="btn btn-xs btn-default"
+                                                href="<?php
+                                           echo $this->url('student/details', array(
+                                               'studentId' => $studentId
+                                           ));
+                                           ?>"><i class="fa fa-user"></i>
+                                        </a>&nbsp; &nbsp;<?php echo $student['name'] ?></td>
+                                     <td><?php echo $student['emailId'] ?></td>
+                                        <td><?php echo $stuInstitute['name'] ?></td>
+                                        <td><?php echo $stuProgramme['name'] ?></td>
+
+                                    <td><?php
+                                            echo $this->currencyFormat($cmsToPePaid, $courseFeeCurrency);
+                                            ?></td>
+                                </tr>
+        <?php } ?>
+                        </tbody>
+                    </table><?php } else { ?>
+                    <h1 class="text-center">No Students have been registered so far</h1>
+                    <a class="btn btn-xs btn-block btn-default"
+                       href="/institute/listall>">Enroll Student <i
+                            class="fa fa-plus-square"></i>
+                    </a>
+
+    <?php } ?> 
+            </div>
+<?php } ?>
+                </div>
+    </div>
+</div>
+<?php
+echo $this->headScript()
+        ->prependFile($this->basePath('js/dataTables.bootstrap.min.js'))
+        ->prependFile($this->basePath('js/jquery.dataTables.min.js'));
+?>
+<script type="text/javascript">
+
+
+    $(document).ready(function () {
+        var getParameterByName = function (name, url) {
+            if (!url)
+                url = window.location.href;
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                    results = regex.exec(url);
+            if (!results)
+                return null;
+            if (!results[2])
+                return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
+        var commStatus;
+        var searchP;
+        var thisLocation;
+        thisLocation = window.location.href;
+        commStatus = getParameterByName('commissionStatus', thisLocation);
+        searchP = getParameterByName('search', thisLocation);
+        if (commStatus !== null) {
+            var table = $('#allUsersNode').DataTable({"searching": true});
+            table.search(commStatus).draw();
+        } else if (searchP !== null) {
+            var table = $('#allUsersNode').DataTable({"searching": true});
+            table.search(searchP).draw();
+        } else {
+            $('#allUsersNode').DataTable();
+        }
+
+    });
+
+</script>

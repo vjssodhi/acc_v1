@@ -1,0 +1,154 @@
+
+<div class="panel-group blckBorder" id="accordion">
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h4 class="panel-title">
+				<a data-toggle="collapse" data-parent="#accordion"
+					href="#collapseOne"><i class="fa fa-money"></i>&nbsp; Commission</a>
+			</h4>
+		</div>
+		<div id="collapseOne" class="panel-collapse collapse">
+			<div class="panel-body">
+				<table class="table">
+					<tr>
+						<td>&nbsp;&nbsp;<i class="fa fa-hourglass-start"></i> </span><a
+							href="/agent/list?commissionStatus=<?php echo urlencode('Commission Status:PENDING')?>">Pending</a></td>
+					</tr>
+					<tr>
+						<td>&nbsp;&nbsp;<i class="fa fa-hourglass-end"></i> <a
+							href="/agent/list?commissionStatus=<?php echo urlencode('Commission Status: NOTHING PENDING')?>">Paid</a></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h4 class="panel-title">
+				<a data-toggle="collapse" data-parent="#accordion"
+					href="#collapseTwo"><i class="fa fa-graduation-cap"></i>
+					&nbsp;Student</a>
+			</h4>
+		</div>
+		<div id="collapseTwo" class="panel-collapse collapse">
+			<div class="panel-body">
+				<table class="table">
+					<tr>
+						<td>&nbsp;&nbsp;<i class="fa fa-plus-square"></i> <a
+							href="/student/easyadd">Add New</a></td>
+					</tr>
+					<tr>
+						<td>&nbsp;&nbsp;<i class="fa fa-list-alt"></i> <a
+							href="/student/list">View Students</a></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h4 class="panel-title">
+				<a data-toggle="collapse" data-parent="#accordion"
+					href="#collapseThree"><span class="glyphicon glyphicon-user"> </span>Agent</a>
+			</h4>
+		</div>
+		<div id="collapseThree" class="panel-collapse collapse">
+			<div class="panel-body">
+				<table class="table">
+					<tr>
+						<td>&nbsp;&nbsp;<i class="fa fa-plus-square"></i> <a
+							href="/agent/register">Add Agent</a></td>
+					</tr>
+					<tr>
+						<td>&nbsp;&nbsp;<i class="fa fa-list-alt"></i> <a
+							href="/agent/list">View Agents</a></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h4 class="panel-title">
+				<a data-toggle="collapse" data-parent="#accordion"
+					href="#collapseFour"><i class="fa fa-file-text-o"></i>&nbsp;&nbsp;&nbsp;Invoices</a>
+			</h4>
+		</div>
+		<div id="collapseFour" class="panel-collapse collapse">
+			<div class="panel-body">
+				<table class="table">
+					<tr>
+						<td>&nbsp;&nbsp;<i class="fa fa-plus-square"></i> <a href="#">Generate
+								Invoice</a></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h4 class="panel-title">
+				<a data-toggle="collapse" data-parent="#accordion"
+					href="#collapseFive"><i class="fa fa-university"></i>&nbsp;&nbsp;&nbsp;Institutes</a>
+			</h4>
+		</div>
+		<div id="collapseFive" class="panel-collapse collapse">
+			<div class="panel-body">
+				<table class="table">
+					<tr>
+						<td>&nbsp;&nbsp;<i class="fa fa-plus-square"></i> <a
+							href="/institute">Add new Components to fee Structure</a></td>
+					</tr>
+					<tr>
+						<td>&nbsp;&nbsp;<i class="fa fa-plus-square"></i> <a
+							href="/institute/add">Add Institute</a></td>
+					</tr>
+
+					<tr>
+						<td>&nbsp;&nbsp;<i class="fa fa-list-alt"></i> <a
+							href="/institute/listall">View Institutes</a></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<style>
+.glyphicon {
+	margin-right: 10px;
+}
+
+.panel-body {
+	padding: 0px;
+}
+
+.panel-body table tr td {
+	padding-left: 15px
+}
+
+.panel-body .table {
+	margin-bottom: 0px;
+}
+
+.blckBorder {
+	border: 1px solid #F0F0F0;
+}
+</style>
+<script type="text/javascript">
+var pthName = window.location.pathname;
+var serPrm = window.location.search;
+var selectorr= "/" +pthName.substr(1);
+
+if(window.location.search == ''){
+	var ssdiv = $('a[href="' + selectorr + '"]').closest('.panel-collapse');
+	ssdiv.toggleClass("panel-collapse in");
+	
+}else{
+	selectorr = pthName+serPrm;
+	var ssdiv = $('a[href="' + selectorr + '"]').closest('.panel-collapse');
+	ssdiv.toggleClass("panel-collapse in");
+	
+}
+
+//$( "li.item-a" ).parent().css( "background-color", "red" );
+</script>

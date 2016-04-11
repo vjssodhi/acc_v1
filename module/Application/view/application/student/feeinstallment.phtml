@@ -1,0 +1,109 @@
+<?php
+
+use Zend\Json\Json;
+?>
+<script type="text/javascript">
+    var redparam = '<?php echo REDIRECT_PARAM_NAME ?>';
+</script>
+<div class="row">
+    <div class="adMnIdL col-lg-offset-3 col-md-offset-3 col-sm-offset-3  col-xs-offset-0 col-lg-6 col-xs-12 col-md-6 col-sm-6">
+           
+                <div class="row" id="userRegForm">
+                    <h3 class="text-center">
+                        Student Fee Installment Management
+                    </h3>
+                    
+                    <?php if(isset($successMsg) && !empty($successMsg))
+                            {?>
+                    
+                   
+                            <div id="successmsg" style="color: green;font-style: bold;"><?php echo $successMsg?></div>
+                            <?php
+                            }?>
+                    <div
+                        class="col-md-12 col-sm-12 col-xs-12">
+                         <div class="box box-primary">
+                   
+<form action= "#" name="setinstallmentForm" id="setinstallmentForm" method="post">
+
+     <div class="form-group">
+                                <label for="exampleInputEmail1">Tution Fee</label>
+<?php 
+                            echo  $feeamount[0]['feeAmount'].' '.$feeamount[0]['feeCurrency'] ;?>
+
+                            <input type="hidden" name="feeamount" id="feeamount" value="<?php echo  $feeamount[0]['feeAmount']?>"/>
+
+</div>                      
+                 
+  <div class="form-group">
+                                <label for="exampleInputEmail1">Select Installment</label>
+  <select name="installment" id="installment" onchange="getInstallmentAmount(this.value);">
+<option value="">--No Of Installment--</option>
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4">4</option>
+<option value="5">5</option>
+<option value="6">6</option>
+  </select>
+
+</div>    
+                             
+    
+
+
+
+
+                            
+                           
+     <div class="form-group">
+                    <div class="control-group">
+                        <div class="controls col-md-4 col-md-offset-4 col-lg-4 col-lg-offset-4 col-sm-offset-4 col-sm-4">
+                            <button class="btn btn-primary btn-block">Save</button>
+                                                        <br>
+                        </div>
+                    </div>
+                </div>
+</form>             
+                      
+                
+
+                </div>
+            </div>
+                        
+                        
+                        
+                        
+                        
+                        
+        </div>
+                            
+                            
+                            
+                            
+                
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+    </div>
+  <script>
+  function getInstallmentAmount(installment)
+  {
+
+    var inputfield='';
+var feeamount=$("#feeamount").val();
+alert(feeamount);
+
+    for(var i=1;i<=installment;i++)
+    {
+        var inputfield.='<lable>Installment '+i+' :</lable><input type="text" name="'+i+'_installment" id="'+i+'_installment" value=""/>';
+    }
+     
+  }
+  </script>

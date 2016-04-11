@@ -1,0 +1,250 @@
+<?php
+
+use Zend\Session\Container;
+
+echo $this->doctype();
+?>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <?php
+        echo $this->headTitle($this->translate('Commission Management '))
+                ->setSeparator(' - ')
+                ->setAutoEscape(false)
+        ?>
+        <?php
+        echo $this->headMeta()
+                ->appendName('viewport', 'width=device-width, initial-scale=1.0')
+                ->appendHttpEquiv('X-UA-Compatible', 'IE=edge');
+        echo $this->headLink()
+                ->prependStylesheet($this->basePath('css/style.css'))
+                ->prependStylesheet($this->basePath('css/bootstrap-theme.min.css'))
+                ->prependStylesheet($this->basePath('css/bootswatch/paper/bootstrap.min.css'));
+        echo $this->headLink()->prependStylesheet($this->basePath() . '/fontawesome/css/font-awesome.css');
+        ?>
+        <!-- Scripts -->
+        <?php
+        echo $this->headScript()
+                ->prependFile($this->basePath('js/bootstrap.min.js'))
+                ->prependFile($this->basePath('js/jquery.min.js'))
+                ->prependFile($this->basePath('js/respond.min.js'), 'text/javascript', array(
+                    'conditional' => 'lt IE 9'
+                ))
+                ->prependFile($this->basePath('js/html5shiv.min.js'), 'text/javascript', array(
+                    'conditional' => 'lt IE 9'
+        ));
+        ?>
+    </head>
+    <?php
+    if ($this->identity()) {
+        $userInfoContainer = new Container(USER_INFO_CONTAINER_NAME);
+        $allInfo = $userInfoContainer->allInfo;
+        $accessLevel = $userInfoContainer->accessLevel;
+    }
+    ?>
+    <body id="comMgmtBody876">
+
+        <nav id="comMgmtNav876" class="navbar dfrt123 navbar-static dfrt123"
+             role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse"
+                        data-target="#user-mod-navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span> <span
+                        class="icon-bar"></span> <span class="icon-bar"></span> <span
+                        class="icon-bar"></span>
+                </button>
+                <!-- 			<a class="navbar-brand" href="#">Logo</a> -->
+            </div>
+            <div class="container">
+                <div class="collapse navbar-collapse" id="user-mod-navbar-collapse">
+                    <ul class="nav navbar-nav navbar-left">
+                        <li><a href="/home"><i class="fa fa-home"></i></a></li>
+                        <?php
+                        if ($this->identity()) {
+                            ?>
+
+                            <?php
+                            switch ($accessLevel) {
+                                case 7:
+                                    ?>
+                                    <li><a href="/institute/listall">List Institutes</a></li>
+                                    <li><a href="/agent/list">List All Agents</a></li>
+                                    <li><a href="/student/list">List All Students</a></li>
+                                    <?php
+                                    break;
+                                default:
+                                    ;
+                                    break;
+                            }
+                            ?>
+                            <?php
+                        } else {
+                            ?>
+                            <li><a href="/anonymous/signup">Sign Up</a></li>
+                            <li><a href="/anonymous/signin">Sign In</a></li>
+                        <?php } ?>
+                    </ul>
+                    <?php
+                    if ($this->identity()) {
+                        ?>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="dropdown"><a href="#" class="dropdown-toggle"
+                                                    data-toggle="dropdown"><i class="fa fa-cog fa-fw"></i>
+                                    <?php echo $userInfoContainer->allInfo['personalEmailId'] ?></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="/user/signout">Sign Out</a></li>
+                                </ul></li>
+                        </ul>
+                        <?php
+                    }
+                    ?>
+
+                </div>
+            </div>
+
+        </nav>
+        <div id="comMgmtViewContentContaner9001">
+            <?php echo $this->content; ?>
+            <hr>
+            <footer> Commission Management System </footer>
+        </div>
+        <div class="scroll-top-wrapper ">
+            <span class="scroll-top-inner"> <i class="fa fa-2x fa-arrow-circle-up"></i>
+            </span>
+        </div>
+        <!-- /container -->
+        <?php echo $this->inlineScript() ?>
+        <script type="text/javascript">
+            $('a[href="/' + window.location.pathname.substr(1) + '"]').parent()
+                    .toggleClass("active");
+            var loader = jQuery('<div class="container text-center"><div class="container text-center"><div class="container text-center"><i class="fa fa-spinner fa-spin fa-5x"></i></div></div></div>');
+
+            $(document).ready(function () {
+                loader.prependTo('#comMgmtBody876');
+                function scrollToTop() {
+                    verticalOffset = typeof (verticalOffset) != 'undefined' ? verticalOffset : 0;
+                    element = $('body');
+                    offset = element.offset();
+                    offsetTop = offset.top;
+                    $('html, body').animate({scrollTop: offsetTop}, 500, 'linear');
+                }
+                $(function () {
+
+                    $(document).on('scroll', function () {
+
+                        if ($(window).scrollTop() > 100) {
+                            $('.scroll-top-wrapper').addClass('show');
+                        } else {
+                            $('.scroll-top-wrapper').removeClass('show');
+                        }
+                    });
+
+                    $('.scroll-top-wrapper').on('click', scrollToTop);
+                });
+
+
+            });
+            $(window).load(function () {
+                loader.remove();
+            });
+        </script>
+        <style>
+            div#comMgmtViewContentContaner9001 {
+                margin-top: 1em;
+                margin-left: 0.5em;
+                margin-right: 1em;
+            }
+
+            myBorders {
+                border-radius: 1em;
+                -webkit-box-shadow: 0 0.125em 0.250em #606060, 0 0.125em 0.125em #606060;
+                -moz-box-shadow: 0 0.125em 0.250em #606060, 0 0.125em 0.125em #606060;
+                box-shadow: 0 0.125em 0.250em #606060, 0 0.125em 0.125em #606060;
+            }
+
+            .myBordersFlat {
+                border-radius: 1em;
+                background:
+                    url("<?php echo $this->basepath('/images/main_texture.jpg'); ?>")
+                    repeat;
+                -webkit-box-shadow: 0 0.125em 0.250em #606060, 0 0.125em 0.125em #606060;
+                -moz-box-shadow: 0 0.125em 0.250em #606060, 0 0.125em 0.125em #606060;
+                box-shadow: 0 0.125em 0.250em #606060, 0 0.125em 0.125em #606060;
+                -webkit-box-shadow: 0 0.125em 0.250em #606060, 0 0.125em 0.125em #606060;
+            }
+
+            .needSpace {
+                margin: 1em 1em 1em 1em;
+            }
+
+            .myBordersInset {
+                border: 2px solid;
+                border-radius: 1em;
+                -webkit-box-shadow: inset 0 0.125em 0.250em #A0A0A0, 0 0.125em 0.125em
+                    #A0A0A0;
+                -moz-box-shadow: inset 0 0.125em 0.250em #A0A0A0, 0 0.125em 0.125em
+                    #A0A0A0;
+                box-shadow: inset 0 0.125em 0.250em #A0A0A0, 0 0.125em 0.125em #A0A0A0;
+            }
+
+            form ul li {
+                color: #A00000;
+            }
+
+            .scroll-top-wrapper {
+                position: fixed;
+                opacity: 0;
+                visibility: hidden;
+                overflow: hidden;
+                text-align: center;
+                z-index: 99999999;
+                background-color: #777777;
+                color: #eeeeee;
+                width: 50px;
+                height: 48px;
+                line-height: 48px;
+                right: 30px;
+                bottom: 30px;
+                padding-top: 2px;
+                border-top-left-radius: 10px;
+                border-top-right-radius: 10px;
+                border-bottom-right-radius: 10px;
+                border-bottom-left-radius: 10px;
+                -webkit-transition: all 0.5s ease-in-out;
+                -moz-transition: all 0.5s ease-in-out;
+                -ms-transition: all 0.5s ease-in-out;
+                -o-transition: all 0.5s ease-in-out;
+                transition: all 0.5s ease-in-out;
+            }
+
+            .scroll-top-wrapper:hover {
+                background-color: #888888;
+            }
+
+            .scroll-top-wrapper.show {
+                visibility: visible;
+                cursor: pointer;
+                opacity: 1.0;
+            }
+
+            .scroll-top-wrapper i.fa {
+                line-height: inherit;
+            }
+
+            nav.dfrt123 {
+                background-color: rgb(28, 31, 115);
+            }
+
+            div.amrit34439084 {
+                margin-top: 0;
+                padding-top: 0;
+            }
+
+            body {
+                margin-top: 0;
+                padding-top: 0;
+            }
+        </style>
+    </body>
+</html>

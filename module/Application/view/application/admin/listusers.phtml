@@ -1,0 +1,72 @@
+<div class="row">
+	<div class="adMnId col-lg-3 col-xs-3 col-md-3 col-sm-3"><?php echo $this->adminSideMenu;?></div>
+	<div class="adMnIdL col-lg-9 col-xs-9 col-md-9 col-sm-9">
+<?php
+echo $this->headLink()->prependStylesheet($this->basePath('css/dataTables.bootstrap.min.css'));
+$allUSers = $this->data['allUsers'];
+
+?>
+<a class="btn btn-xs btn-info btn-block" href="<?php echo $this->url('admin/adduser'); ?>">Add new
+			User&nbsp;&nbsp;<i class="fa fa-plus-circle"></i>
+		</a>
+		<table id="allUsersNode" class="table table-striped table-bordered"
+			cellspacing="0" width="100%">
+			<thead>
+				<tr>
+					<th>Full Name</th>
+					<th>EmailId(Login Id)</th>
+					<th>Access Level</th>
+					<th>Created On</th>
+
+				</tr>
+			</thead>
+			<tfoot>
+				<tr>
+					<th>Full Name</th>
+					<th>EmailId(Login Id)</th>
+					<th>Access Level</th>
+					<th>Created On</th>
+				</tr>
+			</tfoot>
+			<tbody>
+		<?php
+foreach ($allUSers as $user) {
+    $status = $user['accessLevel'];
+    $userId = $user['id'];
+    if ($status == 0) {
+        $class = "alert-danger";
+        $status = 'DISABLED';
+    } else {
+        $status = 'ENABLED';
+        $class = "alert-success";
+    }
+    ?><tr id="<?php echo $userId;?>">
+					<td class="oipuio <?php echo $class?>"
+						id="<?php echo 'colX'.$userId;?>"><?php echo $userId;?></td>
+					<td><?php echo $user['personalEmailId'];?>&nbsp;
+				<a href="/admin/updateuser/<?php echo $userId?>"><i
+							class="fa fa-pencil-square-o"></i></a> <br> <kbd><?php echo $user['loginId'];?></kbd></td>
+					<td><?php echo $user['accessLevel'];?></td>
+					<td><?php echo date('r',$user['createdOn']/1000);?></td>
+
+
+				</tr>
+<?php }?>
+	</tbody>
+		</table>
+	</div>
+</div>
+<?php
+if (ENABLE_DATATABLES) {
+    echo $this->headScript()
+        ->prependFile($this->basePath('js/dataTables.bootstrap.min.js'))
+        ->prependFile($this->basePath('js/jquery.dataTables.min.js'));
+    
+    ?>
+<script type="text/javascript">
+
+$(document).ready(function() {
+    $('#allUsersNode').DataTable();
+} );
+</script>
+<?php }?>

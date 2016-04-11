@@ -1,0 +1,105 @@
+<div class="row">
+	<div class="adMnIdL col-lg-12 col-xs-12 col-md-12 col-sm-12">
+	<?php
+$instituteComponents = $this->instituteComponents;
+$institutesInfo = $this->institutesInfo;
+if (empty($instituteComponents)) {
+    ?>
+	    <h3>No Fee Structure(s) exist for <?php echo $institutesInfo[$this->instituteId]['name']?></h3>
+	    <?php
+} else {
+    
+    foreach ($instituteComponents as $instituteId => $components) {
+        
+        ?>
+            
+           <h3 class="text-center">Fee Structure for: <i class="fa fa-university" style="font-size: 13px;  margin-bottom: 5px;  vertical-align: middle;"></i>&nbsp;<?php echo $institutesInfo[$instituteId]['name']?> <a
+					href="<?php echo $this->url('institute/updatefeestructure',array('instituteId'=>$instituteId)); ?>"><i
+					class="fa fa-pencil-square-o"></i> </a>
+			</h3>
+            <div class="box box-primary">
+                <div id="msg"></div>
+       <table class="table table-bordered">
+			<thead>
+				<tr>
+					<?php
+        foreach ($components as $component) {
+            $status = $component['enabled'];
+            if ($status == 0) {
+                $class = "text-danger";
+                $status = 'DISABLED';
+            } else {
+                $status = 'ENABLED';
+                $class = "text-success";
+            }
+            ?>
+					    <td class="<?php echo $class?>"><?php echo $component['name'].'('.$status.')'?>
+                                             <a
+                                                 href="javascript:;" onclick="return delete_component(<?php echo $component['id']?>);"><i
+					class="fa fa-trash"></i> </a>
+                                            
+                                            </td>
+                                            
+					    <?php
+        }
+        ?>
+				</tr>
+			</thead>
+			<tbody><?php
+        foreach ($components as $component) {
+            
+            ?>
+					    <td><?php echo $component['amount']?></td>
+					    <?php
+        }
+        ?>
+		
+		</tbody>
+
+		</table>
+            </div>
+       <?php
+    }
+    ?><?php
+}
+?></div>
+            </div>
+
+<script>
+
+	
+	function delete_component(compId) {
+            
+		var r=confirm("Are you Sure");
+                if (r == true)
+                {
+                  
+           
+                        $.ajax({
+                        type:"POST",
+                        cache:false,
+                        url:"<?php echo $this->url('institute/deletefeecomponent'); ?>",
+                        data : { componentId : compId },    // multiple data sent using ajax
+                        success: function (response) {
+                         
+                         if(response=="success")
+                         {
+                             location.reload();
+                            $('#msg').text("Component is succesfully deleted").css('color','green'); 
+                         }
+                         else if(response=="fail")
+                         {
+                             $('#msg').text("Sorry! Unable to delete component").css('color','red'); 
+                         }
+                             
+                          
+                        }
+                      });
+                } 
+                
+	}
+	
+	
+
+
+</script>

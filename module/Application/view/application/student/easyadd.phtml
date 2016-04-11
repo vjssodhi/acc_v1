@@ -1,0 +1,508 @@
+<?php
+
+use Zend\Json\Json;
+?>
+<script type="text/javascript">
+    var redparam = '<?php echo REDIRECT_PARAM_NAME ?>';
+</script>
+<div class="row">
+    <div class="adMnIdL col-lg-offset-3 col-md-offset-3 col-sm-offset-3  col-xs-offset-0 col-lg-6 col-xs-12 col-md-6 col-sm-6"><?php
+        $hasAgents = $this->hasAgents;
+        $hasProgrammes = $this->hasProgrammes;
+        $instituteOptions = $this->instituteOptions;
+        $programmeOptions = $this->programmeOptions;
+        $agentOptions = $this->agentOptions;
+        $hasFeeStructs = $this->hasFeeStructs;
+        $instituteStructs = $this->instituteStructs;
+        $instituteProgrammes = $this->instituteProgrammes;
+        $structInfo = $this->structInfo;
+        if (!$hasAgents || !$hasProgrammes || !$hasFeeStructs) {
+            $proceed = false;
+        }
+
+        $instituteAgents = $this->instituteAgents;
+        $agentListUrl = $this->url('agent/list');
+        $instituteListUrl = $this->url('institute/list');
+        $proceed = false;
+        if (empty($instituteOptions) || empty($programmeOptions) || empty($agentOptions)) {
+            $proceed = false;
+        }
+        if (empty($instituteOptions)) {
+            $proceed = false;
+            ?>
+            <a class="label label-success" href="/institute/add"> Add
+                Institute&nbsp;<i class="fa fa-plus"></i>
+            </a>
+            <?php
+        } else {
+            $proceed = true;
+            ?>
+            <script type="text/javascript">
+                var instituteOptions =<?php echo Json::encode($instituteOptions); ?>;
+            </script>
+            <?php
+        }
+        if (!$hasFeeStructs) {
+            $proceed = false;
+            ?>
+            <h2>Please register a fee structure first.</h2>
+            <a href="/institute">Add Fee Structure<i class="fa fa-plus-circle"></i>
+            </a>
+            <?php
+        } else {
+            $proceed = true;
+            ?>
+            <script type="text/javascript">
+                var allinstiStructs =<?php echo Json::encode($instituteStructs); ?>;
+                var structInfo =<?php echo Json::encode($structInfo); ?>;
+            </script>
+            <?php
+        }
+        if (empty($agentOptions)) {
+            $proceed = false;
+            ?>
+            <a class="label label-success" href="/institute/listall"> Add
+                Agent&nbsp;<i class="fa fa-plus"></i>
+            </a>
+            <?php
+        } else {
+            $proceed = true;
+            ?>
+            <script type="text/javascript">
+                var instituteAgents =<?php echo Json::encode($instituteAgents); ?>;
+            </script>
+            <?php
+        }
+        if (!$programmeOptions) {
+            $proceed = false;
+            ?>
+            <a class="label label-success" href="/institute/listall">Add Programme<i
+                    class="fa fa-plus-circle"></i>
+            </a>
+            <?php
+        } else {
+            $proceed = true;
+            ?>
+            <script type="text/javascript">
+                var instituteProgrammes =<?php echo Json::encode($instituteProgrammes); ?>;
+            </script>
+            <?php
+        }
+        if ($proceed) {
+            ?>  
+           
+                <div class="row" id="userRegForm">
+                    <h3 class="text-center">
+                        Student Management
+                    </h3>
+                    
+                    <?php if(isset($successMsg) && !empty($successMsg))
+                            {?>
+                    
+                   
+                            <div id="successmsg" style="color: green;font-style: bold;"><?php echo $successMsg?></div>
+                            <?php
+                            }?>
+                    <div
+                        class="col-md-12 col-sm-12 col-xs-12">
+                         <div class="box box-primary">
+                             
+
+                     
+                       
+                             
+                             
+                          
+              <!-- Custom Tabs -->
+              <div class="nav-tabs-custom">
+                <ul class="nav nav-tabs">
+                  <li class="active"><a data-toggle="tab" href="#tab_1" id="block1">Basic Info</a></li>
+                  <li><a data-toggle="tab" href="#tab_2" id="block2">Agent Commission</a></li>
+                  <li><a data-toggle="tab" href="#tab_3" id="block3">Fee Component</a></li>
+                 
+                    <?php
+                        $form = $this->form;
+                        $form->prepare();
+                        $form->setAttribute('method', 'post');
+                        $form->setAttribute('class', 'form');
+                        $form->setAttribute('role', 'form');
+                        $form->setAttribute('autocomplete', 'off');
+                        $form->setAttribute('name', 'studentinfo');
+                        echo $this->form()->openTag($form);
+                        ?>
+                <div class="tab-content">
+                      
+                    
+                  <div id="tab_1" class="tab-pane active">
+                    <div style="clear:both;"></div>
+                   <!--     Tab 1   start     -->
+                  <div class="form-group">
+                                <label for="exampleInputEmail1">Name</label>
+                                <?php
+                                $name = $form->get('name');
+                                echo $this->forminput($name);
+                                echo $this->formelementerrors($name);
+                                ?>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Email ID</label>
+
+    <?php
+    $emailId = $form->get('emailId');
+    echo $this->formemail($emailId);
+    echo $this->formelementerrors($emailId);
+    ?>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Contact Number</label>
+    <?php
+    $mobile = $form->get('mobile');
+    echo $this->formnumber($mobile);
+    echo $this->formelementerrors($mobile);
+    ?>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Street Address</label>
+                                <?php
+                                $address = $form->get('address');
+                                echo $this->forminput($address);
+                                echo $this->formelementerrors($address);
+                                ?>
+                            </div>
+                             <div class="form-group">
+                                <label for="exampleInputEmail1">City</label>
+                                <?php
+                                $city = $form->get('city');
+                                echo $this->forminput($city);
+                                echo $this->formelementerrors($city);
+                                ?>
+                            </div>
+                             <div class="form-group">
+                                <label for="exampleInputEmail1">Country</label>
+                                <?php
+
+                                    $country = $form->get('country');
+                                    echo $this->formselect($country);
+                                    echo $this->formelementerrors($country);
+
+                                    ?>
+                            </div>
+                             <div class="form-group">
+                                <label for="exampleInputEmail1">Zipcode</label>
+                                <?php
+
+                                    $zipcode = $form->get('zipcode');
+                                    echo $this->formnumber($zipcode);
+                                    echo $this->formelementerrors($zipcode);
+
+                                    ?>
+                            </div>
+
+                                <?php
+                                $csrf = $form->get('mcsrf');
+                                echo $this->formhidden($csrf);
+                                echo $this->formElementErrors($csrf);
+                                ?>
+
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Gender</label>
+                            <?php
+                            $gender = $form->get('gender');
+                            echo $this->formselect($gender);
+                            echo $this->formElementErrors($gender);
+                            ?>
+                            </div>
+
+                        <div class="form-group">
+                                <label for="exampleInputEmail1">Date of Birth</label>
+                            
+                            <div class="row">
+
+                                <div class="form-group column col-md-3 col-sm-3 col-xs-3">
+    <?php
+    $birthDay = $form->get('birthDay');
+    echo $this->formselect($birthDay);
+    ?>      
+                                    
+                                </div>
+                                <div class="form-group column col-md-4 col-sm-4 col-xs-4"><?php
+    $birthMonth = $form->get('birthMonth');
+    echo $this->formselect($birthMonth);
+    ?>
+                                </div>
+                                <div class="form-group column col-md-5 col-sm-5 col-xs-5"><?php
+                                    $birthYear = $form->get('birthYear');
+                                    echo $this->forminput($birthYear);
+                                    ?>
+                                </div>
+                                    <?php echo $this->formElementErrors($birthDay); ?>
+                                    <?php echo $this->formElementErrors($birthMonth); ?>
+                                    <?php echo $this->formElementErrors($birthYear); ?>
+
+                            </div>
+                        </div>
+                   <!-- </div>
+                        <div class="">-->
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Select Institute</label>
+                                    <?php
+                                    $instituteId = $form->get('instituteId');
+                                    echo $this->formselect($instituteId);
+                                    echo $this->formElementErrors($instituteId);
+                                    ?>
+                                
+                              
+                                </div>
+                                <div class="form-group">
+                                <label for="exampleInputEmail1">Select Programme</label>
+                                <?php
+                                $programme = $form->get('programmeId');
+                                echo $this->formselect($programme);
+                                echo $this->formElementErrors($programme);
+                                echo '</div>';
+                                
+                                echo '<div class="form-group"><label for="exampleInputEmail1">Tuition Fee To Be Paid</label>';
+                                $tuitionFees = $form->get('tuitionFees');
+                                echo $this->formnumber($tuitionFees);
+                                echo $this->formElementErrors($tuitionFees);
+                                
+                                ?>
+                               <!-- </div>-->
+                            <div id="prgError117"></div>
+                        </div>
+                       <!-- <div class="">-->
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Select Agent</label>
+                            <?php
+                            $agentId = $form->get('agentId');
+                            echo $this->formselect($agentId);
+                            echo $this->formElementErrors($agentId);
+                            ?>
+                            </div>
+                            <div id="agntError117"></div>
+                            
+                            
+                               <div class="form-group">
+                            <div class="control-group">
+                                <div class="controls col-md-4 col-md-offset-4 col-lg-4 col-lg-offset-4 col-sm-offset-4 col-sm-4">
+                                    <br>
+                                    <div class="btn btn-primary btn-block" onclick=" $('#block2').click();">Next >></div>
+                                    <br>
+                                </div>
+                            </div>
+                        </div>
+                            
+                            
+                    <!--     Tab 1   close     -->  
+                  </div><!-- /.tab-pane -->
+                  <div id="tab_2" class="tab-pane">
+                      
+                      <div style="clear:both;"></div>
+                     <!--     Tab 2   start     -->
+                    <div class="form-group">
+                                <label for="exampleInputEmail1">Set Commission Status:</label>
+                            <?php
+                            $commissionStatus = $form->get('commissionStatus');
+                            echo $this->formselect($commissionStatus);
+                            echo $this->formElementErrors($commissionStatus);
+                            ?></div>
+                                <div class="form-group">
+                                <label for="exampleInputEmail1">Amount to Add to Default Commission</label>
+                            <?php
+                            $addCommission = $form->get('addCommission');
+                            echo $this->formnumber($addCommission);
+                            echo $this->formelementerrors($addCommission);
+                            ?></div>
+                                <div class="form-group">
+                                <label for="exampleInputEmail1">Amount to Deduct from Default Commission</label>
+                            <?php
+                            $deductCommission = $form->get('deductCommission');
+                            echo $this->formnumber($deductCommission);
+                            echo $this->formelementerrors($deductCommission);
+                            ?></div>
+                     
+                     
+                     
+                       <div class="form-group">
+                            <div class="control-group">
+                                <div class="controls col-md-4 col-md-offset-4 col-lg-4 col-lg-offset-4 col-sm-offset-4 col-sm-4">
+                                    <br>
+                                    <div class="btn btn-primary btn-block" onclick=" $('#block3').click();">Next >></div>
+                                    <br>
+                                </div>
+                            </div>
+                        </div>
+                    <!--     Tab 2   close     -->  
+                  </div><!-- /.tab-pane -->
+                  <div id="tab_3" class="tab-pane">
+                      <div style="clear:both;"></div>
+                    <!--     Tab 3   start     -->
+                    <!-- <div class="">-->
+
+                            <div id="retro34To19HJ">
+                            <?php
+                            foreach ($structOptions as $key => $value) {
+                                ?><div id="<?php echo 'structAsi' . $key ?>"><?php
+                                $ele = $form->get($key);
+                                echo $this->formrow($ele);
+                                ?></div><?php
+                            }
+                            ?></div>
+                            <div id="strctError117"></div>
+                            
+                             <div class="form-group">
+                            <div class="control-group">
+                                <div class="controls col-md-4 col-md-offset-4 col-lg-4 col-lg-offset-4 col-sm-offset-4 col-sm-4">
+                                    <br>
+                                    <button class="btn btn-primary btn-block">Save</button>
+                                    <br>
+                                </div>
+                            </div>
+                        </div>
+                            
+                            
+                            
+                       <!-- </div>-->
+                    <!--     Tab 3   close     -->  
+                  </div><!-- /.tab-pane -->
+                </div><!-- /.tab-content -->
+                
+                 
+                            <?php
+                            echo $this->form()->closeTag();
+                            ?>
+                
+                
+              </div><!-- nav-tabs-custom -->
+                        
+                             
+                             
+                             
+                             
+                
+                             
+                             
+                             
+                             
+                            
+                            
+                           
+                      
+                      
+                
+
+                </div>
+            </div>
+                        
+                        
+                        
+                        
+                        
+                        
+        </div>
+                            
+                            
+                            
+                            
+                
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+    </div>
+    <style>
+        div.yup123 label {
+            display: block;
+        }
+    </style>
+    <?php
+}
+?>
+<script type="text/javascript">
+    $("div#retro34To19HJ").html('<div class="text-info">Choose an Institute from options given above to fetch fee structure</div>');
+    $("select#agentIdS").html('<option value="">-Agent list will appear here once you seclect an institute-</option>');
+    $("select#programmeIdS").html('<option value="">-Programme list will appear here once you seclect an institute-</option>');
+    $("select#instituteIdS").change(function () {
+        var htmlCnt = '';
+        var str = "", strpath, strAddLink, strHelerString;
+        var instiProgs, instiAgents, optionPrg, optionAgnt;
+        var prgHeperString = '', agntHelerString = '';
+        var agntAddLink = '';
+        var prgAddLink = '', prgPath, agnpath;
+        $("select#instituteIdS option:selected").each(function () {
+            str += $(this).text() + " ";
+            if (str !== '<Select Institute> ') {
+                instiProgs = instituteProgrammes[$(this).val()];
+                optionPrg = '';
+                if (typeof (instiProgs) !== 'undefined') {
+                    for (var prgId in instiProgs) {
+                        if (instiProgs.hasOwnProperty(prgId)) {
+                            optionPrg += '<option value="' + prgId + '">' + instiProgs[prgId] + '</option>';
+                        }
+
+                    }
+                    $("select#programmeIdS").html(optionPrg);
+                    $("#prgError117").html('');
+                } else {
+                    prgpath = '/programme/add/' + $(this).val() + '?' + redparam + '=/student';
+                    prgAddLink = '<a href="' + prgpath + '">here</a>';
+                    prgHeperString = '<p class="text-danger">No programmes have been registered for ' + instituteOptions[$(this).val()] + '. Click ' + prgAddLink + ' to add programme</p>';
+                    //$(agntHelerString).insertAfter("#programmeIdS");
+                    $("select#programmeIdS").html('<option value="">No programmes registered</option>');
+                    $("#prgError117").html(prgHeperString);
+                }
+                instiAgents = instituteAgents[$(this).val()];
+                optionAgnt = '';
+                if (typeof (instiAgents) !== 'undefined') {
+                    for (var agntd in instiAgents) {
+                        if (instiAgents.hasOwnProperty(agntd)) {
+                            optionAgnt += '<option value="' + agntd + '">' + instiAgents[agntd] + '</option>';
+                        }
+
+                    }
+                    $("select#agentIdS").html(optionAgnt);
+                    $("#agntError117").html('');
+                } else {
+                    agnpath = '/agent/register/' + $(this).val() + '?' + redparam + '=/student';
+                    agntAddLink = '<a href="' + agnpath + '">here</a>';
+                    agntHelerString = '<p class="text-danger">No Agents have been registered for ' + instituteOptions[$(this).val()] + '. Click ' + agntAddLink + ' to add agent</p>';
+                    $("select#agentIdS").html('<option value="">No agents registered</option>');
+                    $("#agntError117").html(agntHelerString);
+                }
+                //
+                instiStructs = allinstiStructs[$(this).val()];
+
+                if (typeof (instiStructs) !== 'undefined') {
+                    htmlCnt = ''
+                    for (var stddId in instiStructs) {
+                        if (instiStructs.hasOwnProperty(stddId)) {
+                            htmlCnt = htmlCnt + '<div id="structAs' + instiStructs[stddId] + '">' +
+                                    '<label for="' + instiStructs[stddId] + 'I">' + structInfo[instiStructs[stddId]].name + ',Default Amount: ' + structInfo[instiStructs[stddId]].amount + '</label>' +
+                                    '<input id="' + instiStructs[stddId] + 'I" class="form-control" type="text" value="' + structInfo[instiStructs[stddId]].amount + '" placeholder="' + structInfo[instiStructs[stddId]].amount + '" name="' + instiStructs[stddId] + '"> </div>';
+
+                        }
+
+                    }
+                    $("div#retro34To19HJ").html(htmlCnt);
+                    $("#strctError117").html('');
+                } else {
+                    strpath = '/institute?' + redparam + '=/student/easyadd';
+                    strAddLink = '<a href="' + strpath + '">here</a>';
+                    strHelerString = '<p class="text-danger">No Fee Structure has been registered for ' + instituteOptions[$(this).val()] + '. Click ' + strAddLink + ' to add fee structure</p>';
+                    $("div#retro34To19HJ").html('');
+                    $("#strctError117").html(strHelerString);
+                }
+
+            }
+        });
+    }).change();
+</script>
+
+
+
+

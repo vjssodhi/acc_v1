@@ -1,0 +1,267 @@
+<div class="row" id="alumniRegForm">
+	<div
+		class="col-md-offset-3 col-xs-offset-3 col-sm-offset-3 col-md-6 col-sm-6 col-xs-6">
+		<h5 class="text-center">Alumni Registration</h5>
+
+<?php
+$form = $this->form;
+$form->prepare();
+$form->setAttribute('method', 'post');
+$form->setAttribute('class', 'form');
+$form->setAttribute('role', 'form');
+$form->setAttribute('autocomplete', 'off');
+echo $this->form()->openTag($form);
+?>
+	<?php
+$csrf = $form->get('mcsrf');
+echo $this->formhidden($csrf);
+echo $this->formElementErrors($csrf);
+
+?>
+<?php
+
+$fullName = $form->get('fullName');
+echo $this->formtext($fullName);
+echo $this->formelementerrors($fullName);
+?>
+<?php
+
+$rollNumber = $form->get('rollNumber');
+echo $this->formnumber($rollNumber);
+echo $this->formelementerrors($rollNumber);
+?>
+						<?php
+    $password = $form->get('password');
+    echo $this->formpassword($password);
+    echo $this->formelementerrors($password);
+    ?>
+						<?php
+    $passwordConfirm = $form->get('passwordConfirm');
+    echo $this->formpassword($passwordConfirm);
+    echo $this->formelementerrors($passwordConfirm);
+    ?>
+<?php
+
+    $batchConcludeYear = $form->get('batchConcludeYear');
+    echo $this->formnumber($batchConcludeYear);
+    echo $this->formelementerrors($batchConcludeYear);
+    ?>
+<?php
+
+    $personalEmailId = $form->get('personalEmailId');
+    echo $this->formemail($personalEmailId);
+    echo $this->formelementerrors($personalEmailId);
+    ?>
+
+	<?php
+
+$mobile = $form->get('mobile');
+echo $this->formnumber($mobile);
+echo $this->formelementerrors($mobile);
+?>
+<br> Birthday On:
+		<div class="row">
+
+			<div class="form-group column col-md-3 col-sm-3 col-xs-3">
+			<?php
+$birthDay = $form->get('birthDay');
+echo $this->formselect($birthDay);
+
+?>
+			</div>
+			<div class="form-group column col-md-4 col-sm-4 col-xs-4"><?php
+
+$birthMonth = $form->get('birthMonth');
+echo $this->formselect($birthMonth);
+echo $this->formElementErrors($birthMonth);
+?>
+			</div>
+			<div class="form-group column col-md-5 col-sm-5 col-xs-5"><?php
+
+$birthYear = $form->get('birthYear');
+echo $this->forminput($birthYear);
+echo $this->formElementErrors($birthYear);
+?>
+			</div><?php echo $this->formElementErrors($birthDay);?>
+</div>
+<?php
+
+$gender = $form->get('gender');
+echo $this->formselect($gender);
+echo $this->formelementerrors($gender);
+?>
+	<?php
+
+$gender = $form->get('marritalStatus');
+echo $this->formselect($gender);
+echo $this->formelementerrors($gender);
+?>		<div id="marriedDetails">
+			Married On:
+			<div class="row">
+				<div class="form-group column col-md-3 col-sm-3 col-xs-3">
+			<?php
+$marriageDay = $form->get('marriageDay');
+echo $this->formselect($marriageDay);
+
+?>
+			</div>
+				<div class="form-group column col-md-4 col-sm-4 col-xs-4"><?php
+    
+    $marriageMonth = $form->get('marriageMonth');
+    echo $this->formselect($marriageMonth);
+    echo $this->formElementErrors($marriageMonth);
+    ?>
+			</div>
+				<div class="form-group column col-md-5 col-sm-5 col-xs-5"><?php
+    
+    $marriageYear = $form->get('marriageYear');
+    echo $this->forminput($marriageYear);
+    echo $this->formElementErrors($marriageYear);
+    ?>
+			</div><?php echo $this->formElementErrors($marriageDay);?>
+		</div>
+		<?php
+
+$spouseName = $form->get('spouseName');
+echo $this->formtext($spouseName);
+echo $this->formelementerrors($spouseName);
+?>
+			<?php
+
+$numberOfKids = $form->get('numberOfKids');
+echo $this->formselect($numberOfKids);
+echo $this->formelementerrors($numberOfKids);
+?>
+</div>
+<?php
+
+$employmentStatus = $form->get('employmentStatus');
+echo $this->formselect($employmentStatus);
+echo $this->formelementerrors($employmentStatus);
+?>
+<div id="officeDetails102">
+<?php
+
+$organisationName = $form->get('organisationName');
+echo $this->forminput($organisationName);
+echo $this->formelementerrors($organisationName);
+?>
+<?php
+
+$officeEmailId = $form->get('officeEmailId');
+echo $this->formemail($officeEmailId);
+echo $this->formelementerrors($officeEmailId);
+?>
+</div>
+		<div id="studyingDetails103">
+<?php
+
+$university = $form->get('university');
+echo $this->forminput($university);
+echo $this->formelementerrors($university);
+?>
+<?php
+
+$programme = $form->get('programme');
+echo $this->forminput($programme);
+echo $this->formelementerrors($programme);
+?></div>
+Address:
+<?php
+
+$nationality = $form->get('nationality');
+echo $this->formselect($nationality);
+echo $this->formelementerrors($nationality);
+?>
+<?php
+
+$state = $form->get('state');
+echo $this->formselect($state);
+echo $this->formelementerrors($state);
+?>
+<?php
+
+$city = $form->get('city');
+echo $this->forminput($city);
+echo $this->formelementerrors($city);
+?>
+<?php
+
+$district = $form->get('district');
+echo $this->forminput($district);
+echo $this->formelementerrors($district);
+?>
+<?php
+
+$pincode = $form->get('pincode');
+echo $this->forminput($pincode);
+echo $this->formelementerrors($pincode);
+?>
+<?php
+
+$permanentAddress = $form->get('permanentAddress');
+echo $this->formtext($permanentAddress);
+echo $this->formelementerrors($permanentAddress);
+?>
+<?php
+
+$correspondenceAddress = $form->get('correspondenceAddress');
+echo $this->formtext($correspondenceAddress);
+echo $this->formelementerrors($correspondenceAddress);
+
+?>
+
+		<div class="form-group">
+			<div class="control-group">
+				<div class="controls">
+					<button class="btn btn-success btn-block">Save</button>
+				</div>
+			</div>
+		</div>
+		<?php
+echo $this->form()->closeTag();
+?>
+		</div>
+
+</div>
+<style>
+#marriedDetails {
+	display: none;
+}
+
+#officeDetails102 {
+	display: none;
+}
+
+#studyingDetails103 {
+	display: none;
+}
+</style>
+<script>
+
+$('#marritalStatusS').change(function() {
+	   var status;
+	   status = $('#marritalStatusS option:selected').text();
+	   if(status=='Married'){
+		   $("div#marriedDetails").show();
+	   }else{
+		   $("div#marriedDetails").hide();
+	   }
+	    
+});
+$('#employmentStatusS').change(function() {
+	   var status;
+	   status = $('#employmentStatusS option:selected').text();
+	   if(status=='Studying'){
+			$("div#studyingDetails103").show();
+			$("div#officeDetails102").hide();		  
+	   }else if(status=='Working' || status=='Business'){
+		   $("div#studyingDetails103").hide();
+		   $("div#officeDetails102").show();
+	   }else{
+		   $("div#officeDetails102").hide();
+		   $("div#studyingDetails103").hide();	
+	   }
+	    
+});
+</script>

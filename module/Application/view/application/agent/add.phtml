@@ -1,0 +1,91 @@
+<div class="row">
+	<div class="adMnIdL col-lg-offset-3 col-md-offset-3 col-sm-offset-3  col-xs-offset-0 col-lg-6 col-xs-12 col-md-6 col-sm-6">
+		<div class="row" id="userRegForm">
+
+			<div
+				class="col-md-12 col-sm-12 col-xs-12">
+                       
+				<h3 class="text-center">
+					Agent Management<a href="<?php echo $this->url('agent/list'); ?>">
+						<i class="fa fa-list-alt"></i>
+					</a>
+				</h3>
+                                 <div class="box box-primary clearfix">
+                                     <br>
+<?php
+$form = $this->form;
+$form->prepare();
+$form->setAttribute('method', 'post');
+$form->setAttribute('class', 'form');
+$form->setAttribute('role', 'form');
+$form->setAttribute('autocomplete', 'off');
+echo $this->form()->openTag($form);
+?>
+
+<?php
+
+$name = $form->get('name');
+echo '<div class="form-group"><label for="exampleInputEmail1">Name</label>'.$this->forminput($name);
+echo $this->formelementerrors($name).'</div>';
+?>
+<?php
+
+$commission = $form->get('commissionPercentage');
+echo '<div class="form-group"><label for="exampleInputEmail1">Commission Percentage%</label>'.$this->formnumber($commission);
+echo $this->formelementerrors($commission).'</div>';
+?>
+<?php
+
+$emailId = $form->get('emailId');
+echo '<div class="form-group"><label for="exampleInputEmail1">Email ID</label>'.$this->formemail($emailId);
+echo $this->formelementerrors($emailId).'</div>';
+?>
+<?php
+
+$mobile = $form->get('mobile');
+echo '<div class="form-group"><label for="exampleInputEmail1">Contact Number</label>'.$this->formnumber($mobile);
+echo $this->formelementerrors($mobile).'</div>';
+?>
+<?php
+
+$address = $form->get('address');
+echo '<div class="form-group"><label for="exampleInputEmail1">Address</label>'.$this->formtextarea($address);
+echo $this->formelementerrors($address).'</div>';
+?>
+<?php
+
+$csrf = $form->get('mcsrf');
+echo $this->formhidden($csrf);
+echo $this->formElementErrors($csrf);
+
+?>
+<?php
+
+$status = $form->get('enabled');
+echo '<div class="form-group"><label for="exampleInputEmail1">Status</label>'.$this->formselect($status).'</div>';
+
+?>
+		<div class="form-group">
+                    <br>
+					<div class="control-group">
+						<div class="controls col-md-4 col-md-offset-4 col-lg-4 col-lg-offset-4 col-sm-offset-4 col-sm-4">
+							<button class="btn btn-primary btn-block">Save</button>
+                                                        <br>
+						</div>
+					</div>
+				</div>
+<?php
+echo $this->form()->closeTag();
+?>
+
+	
+	</div>
+                        </div>
+		</div>
+	</div>
+</div>
+<style>
+div.yup123 label {
+	display: block;
+}
+</style>
